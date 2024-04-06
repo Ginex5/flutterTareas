@@ -1,5 +1,6 @@
 import 'tarea.dart';
 
+// Al no tener que inicializar atributos, no es necesario un constrcutor.
 class GestorDeTareas {
   List<Tarea> tareas = [];
 
