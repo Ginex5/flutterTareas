@@ -13,13 +13,10 @@ class MiAppDeTareas extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // MaterialApp es el widget raíz que envuelve la aplicación de Flutter.
     return MaterialApp(
       title: 'Gestor de Tareas',
       theme: ThemeData(
-        // Color
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
-        // Usamos material Design 3
         useMaterial3: true,
       ),
       home: const PantallaDeTareas(
@@ -33,18 +30,14 @@ class MiAppDeTareas extends StatelessWidget {
 class PantallaDeTareas extends StatefulWidget {
   const PantallaDeTareas({super.key, required this.title});
 
-  // Atributo de la clase
   final String title;
 
   @override
-  // Crea el estado para este widget, que gestiona los datos y la interfaz.
-  // ignore: library_private_types_in_public_api
   State<PantallaDeTareas> createState() => _PantallaDeTareasState();
 }
 
 // Esta es la clase que contiene la lógica y la interfaz del estado de PantallaDeTareas.
 class _PantallaDeTareasState extends State<PantallaDeTareas> {
-  // Se instancia un GestorDeTareas.
   final GestorDeTareas gestorDeTareas =
       GestorDeTareas(); // Gestiona la lista de tareas.
   final TextEditingController controladorTexto =
@@ -52,7 +45,6 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
 
   void _agregarTarea() {
     setState(() {
-      // Actualiza el estado de la aplicación para incluir la nueva tarea.
       gestorDeTareas.agregarTarea(Tarea(descripcion: controladorTexto.text));
       controladorTexto
           .clear(); // Limpia el campo de entrada después de agregar la tarea.
@@ -61,14 +53,12 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
 
   void _eliminarTarea(int index) {
     setState(() {
-      // Actualiza el estado de la aplicación para eliminar la tarea.
       gestorDeTareas.eliminarTarea(index);
     });
   }
 
   void _marcarTareaComoCompletada(int index) {
     setState(() {
-      // Actualiza el estado de la aplicación para marcar la tarea como completada.
       gestorDeTareas.marcarComoCompletada(index);
     });
   }
@@ -91,7 +81,6 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
             ),
             TextButton(
               onPressed: () {
-                // Elimina la tarea y cierra el diálogo
                 _eliminarTarea(index);
                 Navigator.of(context).pop();
               },
@@ -104,7 +93,6 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
   }
 
   void _mostrarDialogoDeModificacion(int index) {
-    // Controlador para el texto modificado.
     final controladorTextoModificado = TextEditingController();
 
     showDialog(
@@ -143,7 +131,6 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
 
   Widget _buildFieldTarea() {
     return TextField(
-      // El usuario escribe la nueva tarea aquí.
       controller: controladorTexto,
       decoration: InputDecoration(
         labelText:
@@ -161,7 +148,6 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
 
   Widget _buildItemListaTarea(Tarea tarea, int index) {
     return ListTile(
-      // ListTile es un widget predefinido que representa una fila de la lista.
       title: Text(tarea.descripcion), // Muestra la descripción de la tarea.
       leading: IconButton(
           // Botón para marcar la tarea como completada o pendiente.
@@ -191,11 +177,9 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
 
   Widget _buildListaTareas() {
     return ListView.builder(
-      // ListView.builder construye un elemento de lista por cada tarea.
       itemCount: gestorDeTareas
           .tareas.length, // La cantidad de elementos es la cantidad de tareas.
       itemBuilder: (context, index) {
-        // Construye cada elemento de la lista.
         final tarea = gestorDeTareas
             .tareas[index]; // Obtiene la tarea actual basada en el índice.
         return _buildItemListaTarea(tarea, index);
@@ -235,9 +219,7 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
 
   @override
   Widget build(BuildContext context) {
-    // Construye la interfaz de usuario del widget PantallaDeTareas.
     return Scaffold(
-      // Scaffold proporciona la estructura de la página, incluyendo AppBar, Body, etc.
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         title: const Text('Gestor de Tareas'), // Título de la aplicación.
@@ -250,17 +232,12 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
         ],
       ), // AppBar es la barra superior de la aplicación.
       body: Column(
-        // Column organiza sus hijos en vertical.
         children: [
-          // El primer hijo de la columna es el campo de texto para añadir tareas.
           Padding(
-            // Padding agrega espacio alrededor del campo de texto.
             padding: const EdgeInsets.all(8.0),
             child: _buildFieldTarea(),
           ),
-          // El segundo hijo de la columna es la lista de tareas.
           Expanded(
-            // Expanded hace que la lista ocupe todo el espacio vertical restante.
             child: _buildListaTareas(),
           ),
         ],
