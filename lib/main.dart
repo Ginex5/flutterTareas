@@ -141,6 +141,68 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
     });
   }
 
+  Widget _buildFieldTarea() {
+    return TextField(
+      // El usuario escribe la nueva tarea aquí.
+      controller: controladorTexto,
+      decoration: InputDecoration(
+        labelText:
+            'Descripción de la tarea', // Texto que indica qué hacer con el campo de texto.
+        suffixIcon: IconButton(
+          // Botón para agregar la tarea.
+          icon: const Icon(Icons.add),
+          onPressed: _agregarTarea, // Agrega la tarea cuando se presiona.
+        ),
+      ),
+      onSubmitted: (value) =>
+          _agregarTarea(), // Agrega la tarea cuando se presiona enter.
+    );
+  }
+
+  Widget _buildItemListaTarea(Tarea tarea, int index) {
+    return ListTile(
+      // ListTile es un widget predefinido que representa una fila de la lista.
+      title: Text(tarea.descripcion), // Muestra la descripción de la tarea.
+      leading: IconButton(
+          // Botón para marcar la tarea como completada o pendiente.
+          icon: Icon(tarea.completada
+              ? Icons.check_box
+              : Icons.check_box_outline_blank),
+          onPressed: () => _marcarTareaComoCompletada(index)),
+      trailing: Row(
+        mainAxisSize: MainAxisSize
+            .min, // Esto asegura que los iconos se mantengan juntos.
+        children: [
+          IconButton(
+            icon: const Icon(Icons.edit), // Icono de edición/modificación.
+            onPressed: () => _mostrarDialogoDeModificacion(index),
+          ),
+          IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () => _mostrarDialogoDeConfirmacion(index),
+          ),
+        ],
+      ),
+      tileColor: tarea.completada
+          ? Colors.green[100]
+          : null, // Cambia el color si la tarea está completada.
+    );
+  }
+
+  Widget _buildListaTareas() {
+    return ListView.builder(
+      // ListView.builder construye un elemento de lista por cada tarea.
+      itemCount: gestorDeTareas
+          .tareas.length, // La cantidad de elementos es la cantidad de tareas.
+      itemBuilder: (context, index) {
+        // Construye cada elemento de la lista.
+        final tarea = gestorDeTareas
+            .tareas[index]; // Obtiene la tarea actual basada en el índice.
+        return _buildItemListaTarea(tarea, index);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // Construye la interfaz de usuario del widget PantallaDeTareas.
@@ -157,65 +219,12 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
           Padding(
             // Padding agrega espacio alrededor del campo de texto.
             padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              // El usuario escribe la nueva tarea aquí.
-              controller: controladorTexto,
-              decoration: InputDecoration(
-                labelText:
-                    'Descripción de la tarea', // Texto que indica qué hacer con el campo de texto.
-                suffixIcon: IconButton(
-                  // Botón para agregar la tarea.
-                  icon: const Icon(Icons.add),
-                  onPressed:
-                      _agregarTarea, // Agrega la tarea cuando se presiona.
-                ),
-              ),
-              onSubmitted: (value) =>
-                  _agregarTarea(), // Agrega la tarea cuando se presiona enter.
-            ),
+            child: _buildFieldTarea(),
           ),
           // El segundo hijo de la columna es la lista de tareas.
           Expanded(
             // Expanded hace que la lista ocupe todo el espacio vertical restante.
-            child: ListView.builder(
-              // ListView.builder construye un elemento de lista por cada tarea.
-              itemCount: gestorDeTareas.tareas
-                  .length, // La cantidad de elementos es la cantidad de tareas.
-              itemBuilder: (context, index) {
-                // Construye cada elemento de la lista.
-                final tarea = gestorDeTareas.tareas[
-                    index]; // Obtiene la tarea actual basada en el índice.
-                return ListTile(
-                  // ListTile es un widget predefinido que representa una fila de la lista.
-                  title: Text(
-                      tarea.descripcion), // Muestra la descripción de la tarea.
-                  leading: IconButton(
-                      // Botón para marcar la tarea como completada o pendiente.
-                      icon: Icon(tarea.completada
-                          ? Icons.check_box
-                          : Icons.check_box_outline_blank),
-                      onPressed: () => _marcarTareaComoCompletada(index)),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize
-                        .min, // Esto asegura que los iconos se mantengan juntos.
-                    children: [
-                      IconButton(
-                        icon: const Icon(
-                            Icons.edit), // Icono de edición/modificación.
-                        onPressed: () => _mostrarDialogoDeModificacion(index),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () => _mostrarDialogoDeConfirmacion(index),
-                      ),
-                    ],
-                  ),
-                  tileColor: tarea.completada
-                      ? Colors.green[100]
-                      : null, // Cambia el color si la tarea está completada.
-                );
-              },
-            ),
+            child: _buildListaTareas(),
           ),
         ],
       ),
