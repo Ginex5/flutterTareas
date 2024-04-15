@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'gestor_de_tareas.dart';
-import 'tarea.dart';
+import 'gestor_tareas/gestor_de_tareas.dart';
+import 'tarea/tarea.dart';
 
 void main() {
   runApp(
@@ -73,7 +73,7 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
     });
   }
 
-  void _mostrarDialogoDeConfirmacion(int index) {
+  void _mostrarDialogoDeConfirmacionEliminacion(int index) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -179,7 +179,7 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
           ),
           IconButton(
             icon: const Icon(Icons.delete),
-            onPressed: () => _mostrarDialogoDeConfirmacion(index),
+            onPressed: () => _mostrarDialogoDeConfirmacionEliminacion(index),
           ),
         ],
       ),
@@ -203,6 +203,36 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
     );
   }
 
+  Future<void> _mostrarDialogoDeConfirmacion(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible:
+          false, // El usuario debe tocar un botón para cerrar el diálogo
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirmación de salida'),
+          content: const Text('¿Estás seguro de que quieres salir?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancelar'),
+              onPressed: () {
+                Navigator.of(context)
+                    .pop(); // Cierra el diálogo sin hacer nada más
+              },
+            ),
+            TextButton(
+              child: const Text('Aceptar'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Primero cierra el diálogo
+                Navigator.of(context).pop(); // Luego cierra la pantalla actual
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // Construye la interfaz de usuario del widget PantallaDeTareas.
@@ -211,6 +241,13 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         title: const Text('Gestor de Tareas'), // Título de la aplicación.
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons
+                .exit_to_app), // Reemplaza 'Icons.some_icon' con el ícono que prefieras
+            onPressed: () => _mostrarDialogoDeConfirmacion(context),
+          ),
+        ],
       ), // AppBar es la barra superior de la aplicación.
       body: Column(
         // Column organiza sus hijos en vertical.

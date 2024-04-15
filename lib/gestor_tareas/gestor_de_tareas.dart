@@ -1,4 +1,4 @@
-import 'tarea.dart';
+import '../tarea/tarea.dart';
 
 // Al no tener que inicializar atributos, no es necesario un constrcutor.
 class GestorDeTareas {
