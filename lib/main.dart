@@ -103,6 +103,44 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
     );
   }
 
+  void _mostrarDialogoDeModificacion(int index) {
+    // Controlador para el texto modificado.
+    final controladorTextoModificado = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Modificar Tarea'),
+          content: TextField(
+            controller: controladorTextoModificado,
+            decoration: const InputDecoration(
+                hintText: "Nueva descripción de la tarea"),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () {
+                _modificarTarea(index, controladorTextoModificado.text);
+                Navigator.of(context).pop();
+              },
+              child: const Text('Modificar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _modificarTarea(int index, String nuevaDescripcion) {
+    setState(() {
+      gestorDeTareas.tareas[index].descripcion = nuevaDescripcion;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // Construye la interfaz de usuario del widget PantallaDeTareas.
@@ -152,16 +190,25 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
                   title: Text(
                       tarea.descripcion), // Muestra la descripción de la tarea.
                   leading: IconButton(
-                    // Botón para marcar la tarea como completada o pendiente.
-                    icon: Icon(tarea.completada
-                        ? Icons.check_box
-                        : Icons.check_box_outline_blank),
-                    onPressed: () => _marcarTareaComoCompletada(index)
-                  ),
-                  trailing: IconButton(
-                    // Botón para eliminar la tarea.
-                    icon: const Icon(Icons.delete),
-                    onPressed: () => _mostrarDialogoDeConfirmacion(index),
+                      // Botón para marcar la tarea como completada o pendiente.
+                      icon: Icon(tarea.completada
+                          ? Icons.check_box
+                          : Icons.check_box_outline_blank),
+                      onPressed: () => _marcarTareaComoCompletada(index)),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize
+                        .min, // Esto asegura que los iconos se mantengan juntos.
+                    children: [
+                      IconButton(
+                        icon: const Icon(
+                            Icons.edit), // Icono de edición/modificación.
+                        onPressed: () => _mostrarDialogoDeModificacion(index),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () => _mostrarDialogoDeConfirmacion(index),
+                      ),
+                    ],
                   ),
                   tileColor: tarea.completada
                       ? Colors.green[100]
