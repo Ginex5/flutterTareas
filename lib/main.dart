@@ -63,6 +63,12 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
     });
   }
 
+  void _modificarTarea(int index, String nuevaDescripcion) {
+    setState(() {
+      gestorDeTareas.tareas[index].descripcion = nuevaDescripcion;
+    });
+  }
+
   void _mostrarDialogoDeConfirmacionEliminacion(int index) {
     showDialog(
       context: context,
@@ -121,12 +127,6 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
         );
       },
     );
-  }
-
-  void _modificarTarea(int index, String nuevaDescripcion) {
-    setState(() {
-      gestorDeTareas.tareas[index].descripcion = nuevaDescripcion;
-    });
   }
 
   Widget _buildFieldTarea() {
