@@ -187,8 +187,8 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
     );
   }
 
-  Future<void> _mostrarDialogoDeConfirmacion(BuildContext context) async {
-    return showDialog<void>(
+  void _mostrarDialogoDeConfirmacion(BuildContext context) {
+    showDialog(
       context: context,
       barrierDismissible:
           false, // El usuario debe tocar un botón para cerrar el diálogo
