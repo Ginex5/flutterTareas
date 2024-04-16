@@ -4,6 +4,8 @@ import '../tarea/tarea.dart';
 class GestorDeTareas {
   List<Tarea> tareas = [];
 
+  GestorDeTareas();
+
   void agregarTarea(Tarea tarea) {
     tareas.add(tarea);
   }
