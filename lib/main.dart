@@ -19,6 +19,7 @@ class MiAppDeTareas extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
         useMaterial3: true,
       ),
+      debugShowCheckedModeBanner: false,
       home: const PantallaDeTareas(
           title:
               'Gestor Tareas'), // Define la pantalla de inicio como PantallaDeTareas.
