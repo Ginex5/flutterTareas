@@ -4,10 +4,9 @@ import 'tarea/tarea.dart';
 
 void main() {
   runApp(
-      const MiAppDeTareas()); // Inicia la aplicación ejecutando MiAppDeTareas.
+      const MiAppDeTareas());
 }
 
-// MiAppDeTareas es un widget sin estado que crea una MaterialApp.
 class MiAppDeTareas extends StatelessWidget {
   const MiAppDeTareas({super.key});
 
@@ -227,7 +226,7 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons
-                .exit_to_app), // Reemplaza 'Icons.some_icon' con el ícono que prefieras
+                .exit_to_app),
             onPressed: () => _mostrarDialogoDeConfirmacion(context),
           ),
         ],
