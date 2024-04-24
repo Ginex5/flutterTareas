@@ -65,7 +65,7 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
 
   void _modificarTarea(int index, String nuevaDescripcion) {
     setState(() {
-      gestorDeTareas.tareas[index].descripcion = nuevaDescripcion;
+      gestorDeTareas.modificarTarea(index, nuevaDescripcion);
     });
   }
 

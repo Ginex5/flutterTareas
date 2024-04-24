@@ -7,7 +7,7 @@ class GestorDeTareas {
   GestorDeTareas();
 
   void agregarTarea(Tarea tarea) {
-    tareas.add(tarea);
+    if (tarea.descripcion.isNotEmpty) tareas.add(tarea);
   }
 
   void eliminarTarea(int index) {
@@ -16,5 +16,9 @@ class GestorDeTareas {
 
   void marcarComoCompletada(int index) {
     tareas[index].completada = !tareas[index].completada;
+  }
+
+  void modificarTarea(int index, String nuevaDescripcion) {
+    if (nuevaDescripcion.isNotEmpty) tareas[index].descripcion = nuevaDescripcion;
   }
 }

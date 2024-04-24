@@ -1,30 +1,41 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:tareas/main.dart';
+import 'package:tareas/gestor_tareas/gestor_de_tareas.dart';
+import 'package:tareas/tarea/tarea.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MiAppDeTareas());
+  group('Operaciones en tareas: ', () {
+    final gestorDeTareas = GestorDeTareas();
+    final tarea = Tarea(descripcion: 'Tarea de prueba');
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    test('comprobamos que se agrega una tarea, y no se puede crear una con la descipción vacía.', () {
+      final tarea1 = Tarea(descripcion: '');
+      gestorDeTareas.agregarTarea(tarea);
+      gestorDeTareas.agregarTarea(tarea1);
+      expect(gestorDeTareas.tareas.contains(tarea), true);
+      expect(gestorDeTareas.tareas.contains(tarea1), false);
+    });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    test('comprobamos que se elimina una tarea.', () {
+      gestorDeTareas.agregarTarea(tarea);
+      gestorDeTareas.eliminarTarea(0);
+      expect(gestorDeTareas.tareas.contains(tarea), false);
+    });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    test('comprobamos que se completa una tarea y que desmarca.', () {
+      gestorDeTareas.agregarTarea(tarea);
+      gestorDeTareas.marcarComoCompletada(0);
+      expect(gestorDeTareas.tareas[0].completada, true);
+      gestorDeTareas.marcarComoCompletada(0);
+      expect(gestorDeTareas.tareas[0].completada, false);
+    });
+
+    test('comprobamos que se ha modificado una tarea, y no se puede modificar con una descripción vacía.', () {
+      gestorDeTareas.agregarTarea(tarea);
+      gestorDeTareas.modificarTarea(0, "Modificada");
+      expect(gestorDeTareas.tareas[0].descripcion, "Modificada");
+      gestorDeTareas.modificarTarea(0, "");
+      expect(gestorDeTareas.tareas[0].descripcion, "Modificada");
+      
+    });
   });
 }
