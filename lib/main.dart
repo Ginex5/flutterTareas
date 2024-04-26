@@ -3,8 +3,7 @@ import 'gestor_tareas/gestor_de_tareas.dart';
 import 'tarea/tarea.dart';
 
 void main() {
-  runApp(
-      const MiAppDeTareas());
+  runApp(const MiAppDeTareas());
 }
 
 class MiAppDeTareas extends StatelessWidget {
@@ -66,6 +65,24 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
   void _modificarTarea(int index, String nuevaDescripcion) {
     setState(() {
       gestorDeTareas.modificarTarea(index, nuevaDescripcion);
+    });
+  }
+
+  void _ordenarTareasPorDescripcion() {
+    setState(() {
+      gestorDeTareas.ordenarTareasPorDescripcion();
+    });
+  }
+
+  void _establecerPrioridadTarea(int index, int prioridad) {
+    setState(() {
+      gestorDeTareas.establecerPrioridadTarea(index, prioridad);
+    });
+  }
+
+  void _intercambiarTareas(int index1, int index2) {
+    setState(() {
+      gestorDeTareas.intercambiarTareas(index1, index2);
     });
   }
 
@@ -149,16 +166,32 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
   Widget _buildItemListaTarea(Tarea tarea, int index) {
     return ListTile(
       title: Text(tarea.descripcion), // Muestra la descripción de la tarea.
-      leading: IconButton(
-          // Botón para marcar la tarea como completada o pendiente.
-          icon: Icon(tarea.completada
-              ? Icons.check_box
-              : Icons.check_box_outline_blank),
-          onPressed: () => _marcarTareaComoCompletada(index)),
+      leading: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          IconButton(
+            icon: const Icon(Icons.flag),
+            color: tarea.prioridad == 1 ? Colors.red : Colors.blue,
+            onPressed: () =>
+                _establecerPrioridadTarea(index, tarea.prioridad == 1 ? 2 : 1),
+          ),
+          IconButton(
+            // Botón para marcar la tarea como completada o pendiente.
+            icon: Icon(tarea.completada
+                ? Icons.check_box
+                : Icons.check_box_outline_blank),
+            onPressed: () => _marcarTareaComoCompletada(index),
+          ),
+        ],
+      ),
       trailing: Row(
         mainAxisSize: MainAxisSize
             .min, // Esto asegura que los iconos se mantengan juntos.
         children: [
+          IconButton(
+            onPressed: () => _intercambiarTareas(index, index - 1),
+            icon: const Icon(Icons.arrow_upward),
+          ),
           IconButton(
             icon: const Icon(Icons.edit), // Icono de edición/modificación.
             onPressed: () => _mostrarDialogoDeModificacion(index),
@@ -225,8 +258,7 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
         title: const Text('Gestor de Tareas'), // Título de la aplicación.
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons
-                .exit_to_app),
+            icon: const Icon(Icons.exit_to_app),
             onPressed: () => _mostrarDialogoDeConfirmacion(context),
           ),
         ],
@@ -236,6 +268,16 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: _buildFieldTarea(),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: _ordenarTareasPorDescripcion,
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white,
+              backgroundColor: Colors.blue,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            ), // Vincula el método _changeText al evento onPressed
+            child: const Text('Ordenar por descripcion'),
           ),
           Expanded(
             child: _buildListaTareas(),

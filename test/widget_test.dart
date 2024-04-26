@@ -4,10 +4,18 @@ import 'package:tareas/tarea/tarea.dart';
 
 void main() {
   group('Operaciones en tareas: ', () {
-    final gestorDeTareas = GestorDeTareas();
-    final tarea = Tarea(descripcion: 'Tarea de prueba');
+    late GestorDeTareas gestorDeTareas;
+    late Tarea tarea;
 
-    test('comprobamos que se agrega una tarea, y no se puede crear una con la descipción vacía.', () {
+    setUp(() {
+      // Inicializar el gestor de tareas y la tarea antes de cada test
+      gestorDeTareas = GestorDeTareas();
+      tarea = Tarea(descripcion: 'Tarea de prueba');
+    });
+
+    test(
+        'comprobamos que se agrega una tarea, y no se puede crear una con la descipción vacía.',
+        () {
       final tarea1 = Tarea(descripcion: '');
       gestorDeTareas.agregarTarea(tarea);
       gestorDeTareas.agregarTarea(tarea1);
@@ -29,13 +37,14 @@ void main() {
       expect(gestorDeTareas.tareas[0].completada, false);
     });
 
-    test('comprobamos que se ha modificado una tarea, y no se puede modificar con una descripción vacía.', () {
+    test(
+        'comprobamos que se ha modificado una tarea, y no se puede modificar con una descripción vacía.',
+        () {
       gestorDeTareas.agregarTarea(tarea);
       gestorDeTareas.modificarTarea(0, "Modificada");
       expect(gestorDeTareas.tareas[0].descripcion, "Modificada");
       gestorDeTareas.modificarTarea(0, "");
       expect(gestorDeTareas.tareas[0].descripcion, "Modificada");
-      
     });
   });
 }

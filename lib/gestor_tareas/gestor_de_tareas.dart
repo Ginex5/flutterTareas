@@ -19,6 +19,27 @@ class GestorDeTareas {
   }
 
   void modificarTarea(int index, String nuevaDescripcion) {
-    if (nuevaDescripcion.isNotEmpty) tareas[index].descripcion = nuevaDescripcion;
+    if (nuevaDescripcion.isNotEmpty)
+      tareas[index].descripcion = nuevaDescripcion;
+  }
+
+  void ordenarTareasPorDescripcion() {
+    tareas.sort((a, b) => a.descripcion.compareTo(b.descripcion));
+  }
+
+  void establecerPrioridadTarea(int index, int prioridad) {
+    tareas[index].prioridad = prioridad;
+  }
+
+  void intercambiarTareas(int index1, int index2) {
+    if (index1 != index2 &&
+        index1 >= 0 &&
+        index1 < tareas.length &&
+        index2 >= 0 &&
+        index2 < tareas.length) {
+      var temp = tareas[index1];
+      tareas[index1] = tareas[index2];
+      tareas[index2] = temp;
+    }
   }
 }
