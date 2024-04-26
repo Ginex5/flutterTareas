@@ -82,7 +82,15 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
 
   void _intercambiarTareas(int index1, int index2) {
     setState(() {
-      gestorDeTareas.intercambiarTareas(index1, index2);
+      try {
+        gestorDeTareas.intercambiarTareas(index1, index2);
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(e.toString()),
+          ),
+        );
+      }
     });
   }
 

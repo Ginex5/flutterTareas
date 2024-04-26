@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tareas/gestor_tareas/gestor_de_tareas.dart';
 import 'package:tareas/tarea/tarea.dart';
@@ -45,6 +47,46 @@ void main() {
       expect(gestorDeTareas.tareas[0].descripcion, "Modificada");
       gestorDeTareas.modificarTarea(0, "");
       expect(gestorDeTareas.tareas[0].descripcion, "Modificada");
+    });
+
+    test('comprobamos que se ha ordenado bien las tareas.', () {
+      gestorDeTareas.agregarTarea(tarea);
+      Tarea tarea2 = Tarea(descripcion: 'Segunda tarea de prueba');
+      gestorDeTareas.agregarTarea(tarea2);
+      Tarea tarea3 = Tarea(descripcion: 'Cuarta tarea de prueba');
+      gestorDeTareas.agregarTarea(tarea3);
+      gestorDeTareas.ordenarTareasPorDescripcion();
+      expect(gestorDeTareas.tareas[0].descripcion, 'Cuarta tarea de prueba');
+      expect(gestorDeTareas.tareas[2].descripcion, 'Tarea de prueba');
+    });
+
+    test('comprobamos que se establece bien la prioridad.', () {
+      gestorDeTareas.agregarTarea(tarea);
+      // Primero tiene prioridad normal
+      expect(gestorDeTareas.tareas[0].prioridad, 2);
+      gestorDeTareas.establecerPrioridadTarea(0, 1);
+      // Despues tiene prioridad alta
+      expect(gestorDeTareas.tareas[0].prioridad, 1);
+    });
+
+    test('comprobamos que se intercambia bien las tareas.', () {
+      gestorDeTareas.agregarTarea(tarea);
+      Tarea tarea2 = Tarea(descripcion: 'Segunda tarea de prueba');
+      gestorDeTareas.agregarTarea(tarea2);
+      // Comprobamos que esta en el orden original
+      expect(gestorDeTareas.tareas[0].descripcion, 'Tarea de prueba');
+      expect(gestorDeTareas.tareas[1].descripcion, 'Segunda tarea de prueba');
+      // Aplicamos el intercambio
+      gestorDeTareas.intercambiarTareas(0, 1);
+      // Comprobamos que se ha intercambiado
+      expect(gestorDeTareas.tareas[0].descripcion, 'Segunda tarea de prueba');
+      expect(gestorDeTareas.tareas[1].descripcion, 'Tarea de prueba');
+      // Comprobamos que si introducimos mal los indices lanza excepción
+      expect(() => gestorDeTareas.intercambiarTareas(0, 2), throwsException);
+      expect(() => gestorDeTareas.intercambiarTareas(2, 0), throwsException);
+      expect(() => gestorDeTareas.intercambiarTareas(0, 0), throwsException);
+      expect(() => gestorDeTareas.intercambiarTareas(-1, 0), throwsException);
+      expect(() => gestorDeTareas.intercambiarTareas(0, -1), throwsException);
     });
   });
 }

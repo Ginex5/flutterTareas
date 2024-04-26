@@ -40,6 +40,8 @@ class GestorDeTareas {
       var temp = tareas[index1];
       tareas[index1] = tareas[index2];
       tareas[index2] = temp;
+    }else{
+      throw Exception('Los índices no son válidos.');
     }
   }
 }
