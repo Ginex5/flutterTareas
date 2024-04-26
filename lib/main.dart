@@ -74,9 +74,9 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
     });
   }
 
-  void _establecerPrioridadTarea(int index, int prioridad) {
+  void _establecerPrioridadTarea(int index) {
     setState(() {
-      gestorDeTareas.establecerPrioridadTarea(index, prioridad);
+      gestorDeTareas.establecerPrioridadTarea(index);
     });
   }
 
@@ -181,7 +181,7 @@ class _PantallaDeTareasState extends State<PantallaDeTareas> {
             icon: const Icon(Icons.flag),
             color: tarea.prioridad == 1 ? Colors.red : Colors.blue,
             onPressed: () =>
-                _establecerPrioridadTarea(index, tarea.prioridad == 1 ? 2 : 1),
+                _establecerPrioridadTarea(index),
           ),
           IconButton(
             // Botón para marcar la tarea como completada o pendiente.

@@ -19,16 +19,18 @@ class GestorDeTareas {
   }
 
   void modificarTarea(int index, String nuevaDescripcion) {
-    if (nuevaDescripcion.isNotEmpty)
+    if (nuevaDescripcion.isNotEmpty) {
       tareas[index].descripcion = nuevaDescripcion;
+    }
   }
 
   void ordenarTareasPorDescripcion() {
     tareas.sort((a, b) => a.descripcion.compareTo(b.descripcion));
   }
 
-  void establecerPrioridadTarea(int index, int prioridad) {
-    tareas[index].prioridad = prioridad;
+  void establecerPrioridadTarea(int index) {
+    int prioridad = tareas[index].prioridad;
+    tareas[index].prioridad = prioridad == 1 ? 2 : 1;
   }
 
   void intercambiarTareas(int index1, int index2) {
@@ -40,7 +42,7 @@ class GestorDeTareas {
       var temp = tareas[index1];
       tareas[index1] = tareas[index2];
       tareas[index2] = temp;
-    }else{
+    } else {
       throw Exception('Los índices no son válidos.');
     }
   }
