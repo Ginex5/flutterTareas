@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tareas/gestor_tareas/gestor_de_tareas.dart';
 import 'package:tareas/tarea/tarea.dart';
@@ -64,7 +62,7 @@ void main() {
       gestorDeTareas.agregarTarea(tarea);
       // Primero tiene prioridad normal
       expect(gestorDeTareas.tareas[0].prioridad, 2);
-      gestorDeTareas.establecerPrioridadTarea(0, 1);
+      gestorDeTareas.establecerPrioridadTarea(0);
       // Despues tiene prioridad alta
       expect(gestorDeTareas.tareas[0].prioridad, 1);
     });
